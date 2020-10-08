@@ -2,11 +2,14 @@
 
 #include <vector>
 #include <string>
+#include <utility>
 
+#include "amount.hpp"
 #include "product.hpp"
 
 using std::vector;
 using std::string;
+using std::pair;
 
 class MealComponent {
 
@@ -18,7 +21,7 @@ class MealComponent {
 
     public:
         string name;
-        vector<Product> ingredients;
+        vector<pair<Product, Amount>> ingredients;
         MealComponentType type;
 
 };
