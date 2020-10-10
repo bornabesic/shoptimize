@@ -2,7 +2,6 @@
 #include <numeric>
 #include <utility>
 
-#include "amount.hpp"
 #include "product.hpp"
 #include "store.hpp"
 
@@ -22,8 +21,8 @@ const Store::ProductInfo &Store::get_product_info(const Product &product) {
 
 float Store::get_cost(const Product &product, const Amount &amount) {
     const ProductInfo &info = this->get_product_info(product);
-    float unit_price = info.price / info.amount.value;
-    return unit_price * amount.value;
+    float unit_price = info.price / info.amount;
+    return unit_price * amount;
 }
 
 float Store::get_cost(const MealComponent &component) {

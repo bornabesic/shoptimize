@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "amount.hpp"
 #include "product.hpp"
 #include "meal.hpp"
 

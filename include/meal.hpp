@@ -4,12 +4,13 @@
 #include <string>
 #include <utility>
 
-#include "amount.hpp"
 #include "product.hpp"
 
 using std::vector;
 using std::string;
 using std::pair;
+
+typedef float Amount;
 
 class MealComponent {
 
