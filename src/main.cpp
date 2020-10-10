@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <cstdlib>
 
 #include "yaml-cpp/yaml.h"
 
@@ -8,9 +9,17 @@
 #include "meal.hpp"
 #include "store.hpp"
 
+void check_args(int argc, char **argv) {
+    if (argc - 1 != 1) {
+        std::cout << "Usage: shoptimize <configfile>" << '\n';
+        std::exit(1);
+    }
+}
 
-int main(void) {
-    YAML::Node config = YAML::LoadFile("config.yaml");
+int main(int argc, char **argv) {
+    check_args(argc, argv);
+
+    YAML::Node config = YAML::LoadFile(argv[1]);
 
     unordered_map<string, Product> products = parse_products(config);
     vector<MealComponent> components = parse_components(config, products);
