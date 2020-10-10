@@ -97,5 +97,21 @@ vector<MealComponent> parse_components(const YAML::Node &config, unordered_map<s
         });
     }
     return components;
+}
 
+unordered_map<string, Store> parse_stores(const YAML::Node &config, unordered_map<string, Product> &products) {
+    unordered_map<string, Store> stores;
+    assert(config["stores"]);
+    for (const auto &store : config["stores"]) {
+        assert(store["name"]);
+        assert(store["products"]);
+        const string name = store["name"].as<string>();
+        Store s(name);
+        for (const auto &product : store["products"]) {
+            const string product_name = product[0].as<string>();
+            s.register_product(products[product_name], product[2].as<float>(), product[2].as<Amount>());
+        }
+        stores[name] = s;
+    }
+    return stores;
 }

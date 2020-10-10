@@ -6,19 +6,21 @@
 #include "product.hpp"
 #include "meal.hpp"
 
+using std::string;
 using std::unordered_map;
 
 class Store {
 
-    struct ProductInfo {
-        float price;
-        Amount amount;
-    };
-
-    private:
-        unordered_map<Product, ProductInfo> product_info;
-
     public:
+        struct ProductInfo {
+            float price;
+            Amount amount;
+        };
+
+        string name;
+        Store() {};
+        Store(const string &name) : name(name) {};
+
         void register_product(const Product &product, const float price, const Amount amount);
         bool has_product(const Product &product);
         const ProductInfo &get_product_info(const Product &product);
@@ -26,5 +28,8 @@ class Store {
         float get_cost(const Product &product, const Amount &amount);
         float get_cost(const MealComponent &component);
         float get_cost(const Meal &meal);
+
+    private:
+        unordered_map<Product, Store::ProductInfo> product_info;
 
 };
