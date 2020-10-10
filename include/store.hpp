@@ -23,8 +23,8 @@ class Store {
         Store(const string &name) : name(name) {};
 
         void register_product(const Product &product, const float price, const Amount amount);
-        bool has_product(const Product &product);
-        bool sells_all_ingredients(const MealComponent &component);
+        bool has_product(const Product &product) const;
+        bool sells_all_ingredients(const MealComponent &component) const;
         const ProductInfo &get_product_info(const Product &product);
 
         float get_cost(const Product &product, const Amount &amount);

@@ -11,7 +11,7 @@ void Store::register_product(const Product &product, const float price, const Am
     this->product_info[product] = {price, amount};
 }
 
-bool Store::has_product(const Product &product) {
+bool Store::has_product(const Product &product) const {
     return this->product_info.contains(product);
 }
 
@@ -47,7 +47,7 @@ float Store::get_cost(const Meal &meal) {
     );
 }
 
-bool Store::sells_all_ingredients(const MealComponent &component) {
+bool Store::sells_all_ingredients(const MealComponent &component) const {
     return std::all_of(
         component.ingredients.begin(),
         component.ingredients.end(),
