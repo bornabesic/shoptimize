@@ -44,6 +44,6 @@ class Meal {
     public:
         vector<MealComponent> components;
 
-        std::string name() const;
+        string name() const;
 
 };
