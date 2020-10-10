@@ -109,7 +109,7 @@ unordered_map<string, Store> parse_stores(const YAML::Node &config, unordered_ma
         Store s(name);
         for (const auto &product : store["products"]) {
             const string product_name = product[0].as<string>();
-            s.register_product(products[product_name], product[2].as<float>(), product[2].as<Amount>());
+            s.register_product(products[product_name], product[2].as<float>(), product[1].as<Amount>());
         }
         stores[name] = s;
     }
