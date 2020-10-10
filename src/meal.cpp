@@ -15,7 +15,7 @@ string Meal::name() const {
     return name;
 }
 
-bool MealDescriptor::is_compatible(const MealComponent &component) {
+bool MealDescriptor::is_compatible(const MealComponent &component) const {
     return component.temperature == this->temperature &&
            component.time == this->time;
 }

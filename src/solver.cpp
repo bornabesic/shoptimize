@@ -16,12 +16,25 @@ struct Context {
 };
 
 static void backtracking(const Context &context, int step, vector<Meal> &meals) {
+    if (step == context.descriptors.size()) {
+        context.submit_fn(meals);
+        return;
+    }
+
     const MealDescriptor &descriptor = context.descriptors[step];
-    // TODO
+    // TODO Consider component types (MealComponent::Type)
+    // -> Multiple components per meal
+    for (const auto &component : context.components) {
+        if (descriptor.is_compatible(component)) {
+            meals[step].components.emplace_back(component);
+            backtracking(context, step + 1, meals);
+            meals[step].components.pop_back();
+        }
+    }
     
 }
 
-void solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors) {
+vector<Meal> solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors) {
 
     vector<MealComponent> available_components;
     std::copy_if(
@@ -33,15 +46,17 @@ void solve(const Store &store, const vector<MealComponent> &components, const ve
         }
     );
 
-    vector<Meal> meals(descriptors.size());
-
+    vector<Meal> solution;
     auto submit_fn = [&](vector<Meal> &meals) {
-        // TODO
+        solution = meals; // TODO
     };
 
+    vector<Meal> meals(descriptors.size());
     backtracking(
         {store, available_components, descriptors, submit_fn},
         0,
         meals
     );
+
+    return solution;
 }

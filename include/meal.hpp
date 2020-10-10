@@ -59,5 +59,5 @@ class MealDescriptor {
         MealDescriptor(MealComponent::Temperature temperature, MealComponent::Time time) :
         temperature(temperature), time(time) {}
 
-        bool is_compatible(const MealComponent &component);
+        bool is_compatible(const MealComponent &component) const;
 };

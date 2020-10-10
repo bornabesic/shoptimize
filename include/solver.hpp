@@ -7,8 +7,7 @@
 
 using std::vector;
 
-// TODO Change return type
-void solve(
+vector<Meal> solve(
     const Store &store,
     const vector<MealComponent> &components,
     const vector<MealDescriptor> &descriptors
