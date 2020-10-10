@@ -6,6 +6,7 @@
 #include "product.hpp"
 #include "meal.hpp"
 
+using std::vector;
 using std::string;
 using std::unordered_map;
 
@@ -23,6 +24,7 @@ class Store {
 
         void register_product(const Product &product, const float price, const Amount amount);
         bool has_product(const Product &product);
+        bool sells_all_ingredients(const MealComponent &component);
         const ProductInfo &get_product_info(const Product &product);
 
         float get_cost(const Product &product, const Amount &amount);

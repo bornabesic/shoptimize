@@ -46,3 +46,13 @@ float Store::get_cost(const Meal &meal) {
         }
     );
 }
+
+bool Store::sells_all_ingredients(const MealComponent &component) {
+    return std::all_of(
+        component.ingredients.begin(),
+        component.ingredients.end(),
+        [&](const pair<Product, Amount> &p) {
+            return this->has_product(p.first);
+        }
+    );
+}
