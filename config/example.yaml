@@ -1,0 +1,22 @@
+products:
+    - name: Fusilli
+      type: food
+    - name: Pesto Genovese
+      type: food
+
+components:
+    - name: Pasta Pesto
+      type: main
+      temperature: hot
+      time: lunch
+      ingredients:
+        # kg
+        - [Fusilli, 0.250]
+        - [Pesto Genovese, 0.095]
+
+stores:
+    - name: Kaufland
+      products:
+        # kg, EUR
+        - [Fusilli, 0.5, 0.47]
+        - [Pesto Genovese, 0.19, 0.96]
