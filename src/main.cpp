@@ -8,6 +8,7 @@
 #include "product.hpp"
 #include "meal.hpp"
 #include "store.hpp"
+#include "solver.hpp"
 
 void check_args(int argc, char **argv) {
     if (argc - 1 != 1) {
@@ -28,6 +29,18 @@ int main(int argc, char **argv) {
     std::cout << "Products: " << products.size() << '\n';
     std::cout << "Components: " << components.size() << '\n';
     std::cout << "Stores: " << stores.size() << '\n';
+
+    // TODO Move to config file
+    vector<MealDescriptor> descriptors{
+        {MealComponent::Temperature::HOT, MealComponent::Time::LUNCH},
+        {MealComponent::Temperature::HOT, MealComponent::Time::LUNCH},
+        // NOTE {MealComponent::Temperature::HOT, MealComponent::Time::BREAKFAST}
+    };
+
+    const Store &store = stores.begin()->second;
+    for (const auto &meal : solve(store, components, descriptors)) {
+        std::cout << meal.name() << '\n';
+    }
 
     return 0;
 }
