@@ -48,3 +48,16 @@ class Meal {
         string name() const;
 
 };
+
+class MealDescriptor {
+
+    private:
+        MealComponent::Temperature temperature;
+        MealComponent::Time time;
+
+    public:
+        MealDescriptor(MealComponent::Temperature temperature, MealComponent::Time time) :
+        temperature(temperature), time(time) {}
+
+        bool is_compatible(const MealComponent &component);
+};
