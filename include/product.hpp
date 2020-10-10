@@ -4,22 +4,16 @@
 
 using std::string;
 
-enum ProductType {
-    FOOD,
-    DRINK
-};
-
-enum UsedFor {
-    BREAKFAST,
-    LUNCH,
-    DINNER
-};
-
 class Product {
+
     public:
+        enum Type {
+            FOOD,
+            DRINK
+        };
+
         string name;
-        ProductType type;
-        UsedFor used_for; // TODO Enable multiple values
+        Product::Type type;
 
         bool operator==(const Product &other) const;
 };

@@ -13,28 +13,37 @@ using std::pair;
 
 class MealComponent {
 
-    enum MealComponentType {
-        MAIN_COURSE,
-        SIDE_DISH,
-        SALAD
-    };
-
     public:
+        enum Type {
+            MAIN,
+            SIDE
+            // TODO Add others
+        };
+
+        enum Temperature {
+            COLD,
+            HOT
+        };
+
+        enum Time {
+            BREAKFAST,
+            LUNCH,
+            DINNER
+        };
+
         string name;
         vector<pair<Product, Amount>> ingredients;
-        MealComponentType type;
+        MealComponent::Type type;
+        MealComponent::Temperature temperature;
+        MealComponent::Time time;
 
 };
 
 class Meal {
 
-    enum MealType {
-        COLD,
-        HOT
-    };
-
     public:
-        string name;
         vector<MealComponent> components;
-        MealType type;
+
+        std::string name() const;
+
 };
