@@ -22,14 +22,26 @@ static void backtracking(const Context &context, int step, vector<Meal> &meals) 
     }
 
     const MealDescriptor &descriptor = context.descriptors[step];
-    // TODO Consider component types (MealComponent::Type)
-    // -> Multiple components per meal
-    for (const auto &component : context.components) {
-        if (descriptor.is_compatible(component)) {
-            meals[step].components.emplace_back(component);
+
+    Meal &meal = meals[step];
+
+    // Main
+    for (const auto &main : context.components) {
+        if (main.type != MealComponent::Type::MAIN || !descriptor.is_compatible(main)) continue;
+
+        meal.components.emplace_back(main);
+        backtracking(context, step + 1, meals);
+
+        // Side (optional)
+        for (const auto &side : context.components) {
+            if (side.type != MealComponent::Type::SIDE || !descriptor.is_compatible(side)) continue;
+
+            meal.components.emplace_back(side);
             backtracking(context, step + 1, meals);
-            meals[step].components.pop_back();
+            meal.components.pop_back();
         }
+
+        meal.components.pop_back();
     }
     
 }
