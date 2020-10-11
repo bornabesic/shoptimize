@@ -39,6 +39,7 @@ stores:
         - [Heringsfilet, 0.200, 0.97]
 
 description:
+    max_budget: 25.00
     start: Sunday
     days: 7
     default: [hot lunch, cold dinner]
