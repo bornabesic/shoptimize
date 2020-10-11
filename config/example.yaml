@@ -3,8 +3,17 @@ products:
       type: food
     - name: Pesto Genovese
       type: food
+    - name: Minutensteaks
+      type: food
 
 components:
+    - name: Minutensteaks
+      type: main
+      temperature: hot
+      time: lunch
+      ingredients:
+        # kg
+        - [Minutensteaks, 0.190]
     - name: Pasta Pesto
       type: main
       temperature: hot
@@ -20,3 +29,12 @@ stores:
         # kg, EUR
         - [Fusilli, 0.5, 0.47]
         - [Pesto Genovese, 0.19, 0.96]
+        - [Minutensteaks, 0.475, 2.28]
+
+description:
+    start: Sunday
+    days: 7
+    default: [hot lunch, hot lunch]
+    override:
+        Monday: [hot lunch]
+        Wednesday: [hot lunch]
