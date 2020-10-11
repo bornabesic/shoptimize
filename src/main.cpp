@@ -46,7 +46,15 @@ int main(int argc, char **argv) {
     });
     auto t_end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> t_delta = t_end - t_start;
-    std::cout << "Found " << n_solutions << " solutions in " << t_delta.count() << " seconds." << '\n';
+
+    std::cout << '\n';
+    std::cout << "Time: " << t_delta.count() << " s" << '\n';
+    if (n_solutions == 0) {
+        std::cout << "No solutions found." << '\n';
+        return 0;
+    }
+
+    std::cout << "Solutions: " << n_solutions << '\n';
 
     std::cout << '\n';
     std::cout << "Best solution:" << '\n';
