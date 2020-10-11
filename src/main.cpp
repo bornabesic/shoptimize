@@ -23,31 +23,25 @@ int main(int argc, char **argv) {
     const string &config_file = argv[1];
     const string &store_name = argv[2];
 
-    YAML::Node config = YAML::LoadFile(config_file);
+    Configuration config = load_configuration(config_file);
 
-    unordered_map<string, Product> products = parse_products(config);
-    vector<MealComponent> components = parse_components(config, products);
-    unordered_map<string, Store> stores = parse_stores(config, products);
-    vector<MealDescriptor> descriptors = parse_description(config);
-    vector<const Constraint *> constraints = parse_constraints(config);
-
-    if (!stores.contains(store_name)) {
+    if (!config.stores.contains(store_name)) {
         std::cout << "Cannot find store '" << store_name << "' in " << config_file << '.' << '\n';
         return 1;
     }
 
-    std::cout << "Products: " << products.size() << '\n';
-    std::cout << "Components: " << components.size() << '\n';
-    std::cout << "Stores: " << stores.size() << '\n';
-    std::cout << "Meals: " << descriptors.size() << '\n';
-    std::cout << "Constraints: " << constraints.size() << '\n';
+    std::cout << "Products: " << config.products.size() << '\n';
+    std::cout << "Components: " << config.components.size() << '\n';
+    std::cout << "Stores: " << config.stores.size() << '\n';
+    std::cout << "Meals: " << config.descriptors.size() << '\n';
+    std::cout << "Constraints: " << config.constraints.size() << '\n';
 
-    const Store &store = stores[argv[2]];
+    const Store &store = config.stores.at(argv[2]);
     unsigned long int n_solutions = 0;
     auto t_start = std::chrono::high_resolution_clock::now();
     vector<Meal> best_solution;
     float best_cost = -1;
-    solve(store, components, descriptors, constraints, [&](const vector<Meal> &solution, float cost) {
+    solve(config, store, [&](const vector<Meal> &solution, float cost) {
         ++n_solutions;
         if (best_cost == -1 || cost < best_cost) {
             best_solution = solution;

@@ -192,3 +192,16 @@ vector<const Constraint *> parse_constraints(const YAML::Node &config) {
     }
     return constraints;
 }
+
+Configuration load_configuration(const string &file) {
+    YAML::Node config = YAML::LoadFile(file);
+
+    unordered_map<string, Product> products = parse_products(config);
+    return {
+        products,
+        parse_components(config, products),
+        parse_stores(config, products),
+        parse_description(config),
+        parse_constraints(config)
+    };
+}
