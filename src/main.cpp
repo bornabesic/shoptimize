@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
     vector<MealComponent> components = parse_components(config, products);
     unordered_map<string, Store> stores = parse_stores(config, products);
     vector<MealDescriptor> descriptors = parse_description(config);
+    vector<const Constraint *> constraints = parse_constraints(config);
 
     if (!stores.contains(store_name)) {
         std::cout << "Cannot find store '" << store_name << "' in " << config_file << '.' << '\n';
@@ -38,10 +39,8 @@ int main(int argc, char **argv) {
     std::cout << "Products: " << products.size() << '\n';
     std::cout << "Components: " << components.size() << '\n';
     std::cout << "Stores: " << stores.size() << '\n';
-
-    // TODO Move to the config file
-    vector<const Constraint *> constraints;
-    constraints.emplace_back(new MaxBudgetConstraint(10));
+    std::cout << "Meals: " << descriptors.size() << '\n';
+    std::cout << "Constraints: " << constraints.size() << '\n';
 
     const Store &store = stores[argv[2]];
     unsigned long int n_solutions = 0;

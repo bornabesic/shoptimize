@@ -181,3 +181,14 @@ vector<MealDescriptor> parse_description(const YAML::Node &config) {
 
     return day_descriptors;
 }
+
+vector<const Constraint *> parse_constraints(const YAML::Node &config) {
+    vector<const Constraint *> constraints;
+    assert(config["description"]);
+    const auto &description = config["description"];
+    if (description["max_budget"]) {
+        float max_budget = description["max_budget"].as<float>();
+        constraints.emplace_back(new MaxBudgetConstraint(max_budget));
+    }
+    return constraints;
+}
