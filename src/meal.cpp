@@ -6,12 +6,13 @@
 using std::string;
 
 string Meal::name() const {
-    string name;
+    string name = "{";
     const size_t index_last = this->components.size() - 1;
     for (size_t i = 0; i < this->components.size(); ++i) {
         name += this->components[i].name;
         if (i < index_last) name += ", ";
     }
+    name += '}';
     return name;
 }
 
