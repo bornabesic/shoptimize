@@ -1,19 +1,31 @@
 
 #include "config.hpp"
 
-#include <iostream>
+#include <array>
 #include <vector>
 #include <cassert>
 #include <utility>
+#include <algorithm>
 
 #include "yaml-cpp/yaml.h"
 
 #include "product.hpp"
 #include "meal.hpp"
 
+using std::array;
 using std::vector;
 using std::string;
 using std::unordered_map;
+
+static constexpr auto days_of_week = {
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+};
 
 static Product::Type parse_product_type(const string &type) {
     if (type == "food")
@@ -116,4 +128,56 @@ unordered_map<string, Store> parse_stores(const YAML::Node &config, unordered_ma
         stores[name] = s;
     }
     return stores;
+}
+
+static inline vector<MealDescriptor> parse_descriptors_list(const vector<string> &descriptors) {
+    vector<MealDescriptor> meal_descriptors;
+    for (const auto &meal_string : descriptors) {
+        const auto &delimiter_pos = meal_string.find(' ');
+
+        MealComponent::Temperature temperature = parse_component_temperature(
+            meal_string.substr(0, delimiter_pos)
+        );
+        MealComponent::Time time = parse_component_time(
+            meal_string.substr(delimiter_pos + 1, meal_string.length() - delimiter_pos)
+        );
+        meal_descriptors.emplace_back(MealDescriptor(temperature, time));
+    }
+    return meal_descriptors;
+}
+
+vector<MealDescriptor> parse_description(const YAML::Node &config) {
+    assert(config["description"]);
+    const auto &description = config["description"];
+    assert(description["start"]);
+    assert(description["days"]);
+    assert(description["default"]);
+
+    const auto &start = description["start"].as<string>();
+    const auto &day_iterator = std::find(
+        days_of_week.begin(),
+        days_of_week.end(),
+        start
+    );
+    assert(day_iterator != days_of_week.end());
+    const int start_index = day_iterator - days_of_week.begin();
+
+    const int &days = description["days"].as<int>();
+    const vector<MealDescriptor> default_ = parse_descriptors_list(
+        description["default"].as<vector<string>>()
+    );
+
+    vector<MealDescriptor> day_descriptors;
+    for (int i = 0; i < days; ++i) {
+        const auto index = (start_index + i) % days;
+        const auto &day = *(days_of_week.begin() + index);
+
+        const vector<MealDescriptor> &descriptors = (description["override"] && description["override"][day]) ?
+        parse_descriptors_list(description["override"][day].as<vector<string>>()) :
+        default_;
+
+        day_descriptors.insert(day_descriptors.end(), descriptors.begin(), descriptors.end());
+    }
+
+    return day_descriptors;
 }

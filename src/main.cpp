@@ -25,17 +25,11 @@ int main(int argc, char **argv) {
     unordered_map<string, Product> products = parse_products(config);
     vector<MealComponent> components = parse_components(config, products);
     unordered_map<string, Store> stores = parse_stores(config, products);
+    vector<MealDescriptor> descriptors = parse_description(config);
 
     std::cout << "Products: " << products.size() << '\n';
     std::cout << "Components: " << components.size() << '\n';
     std::cout << "Stores: " << stores.size() << '\n';
-
-    // TODO Move to config file
-    vector<MealDescriptor> descriptors{
-        {MealComponent::Temperature::HOT, MealComponent::Time::LUNCH},
-        {MealComponent::Temperature::HOT, MealComponent::Time::LUNCH},
-        // NOTE {MealComponent::Temperature::HOT, MealComponent::Time::BREAKFAST}
-    };
 
     const Store &store = stores.begin()->second;
     solve(store, components, descriptors, [&](vector<Meal> &solution) {
