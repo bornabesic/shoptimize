@@ -38,9 +38,12 @@ int main(int argc, char **argv) {
     };
 
     const Store &store = stores.begin()->second;
-    for (const auto &meal : solve(store, components, descriptors)) {
-        std::cout << meal.name() << '\n';
-    }
+    solve(store, components, descriptors, [&](vector<Meal> &solution) {
+        for (const auto &meal : solution) {
+            std::cout << meal.name() << "\t";
+        }
+        std::cout << '\n';
+    });
 
     return 0;
 }

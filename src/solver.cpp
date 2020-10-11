@@ -12,12 +12,12 @@ struct Context {
     const Store &store;
     const vector<MealComponent> &components;
     const vector<MealDescriptor> &descriptors;
-    const std::function<void(vector<Meal>&)> &submit_fn;
+    const std::function<void(vector<Meal>&)> &callback_fn;
 };
 
 static void backtracking(const Context &context, int step, vector<Meal> &meals) {
     if (step == context.descriptors.size()) {
-        context.submit_fn(meals);
+        context.callback_fn(meals);
         return;
     }
 
@@ -46,7 +46,7 @@ static void backtracking(const Context &context, int step, vector<Meal> &meals) 
     
 }
 
-vector<Meal> solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors) {
+void solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors, const std::function<void(vector<Meal>&)> &callback_fn) {
 
     vector<MealComponent> available_components;
     std::copy_if(
@@ -58,17 +58,10 @@ vector<Meal> solve(const Store &store, const vector<MealComponent> &components, 
         }
     );
 
-    vector<Meal> solution;
-    auto submit_fn = [&](vector<Meal> &meals) {
-        solution = meals; // TODO
-    };
-
     vector<Meal> meals(descriptors.size());
     backtracking(
-        {store, available_components, descriptors, submit_fn},
+        {store, available_components, descriptors, callback_fn},
         0,
         meals
     );
-
-    return solution;
 }

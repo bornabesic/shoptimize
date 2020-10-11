@@ -7,8 +7,9 @@
 
 using std::vector;
 
-vector<Meal> solve(
+void solve(
     const Store &store,
     const vector<MealComponent> &components,
-    const vector<MealDescriptor> &descriptors
+    const vector<MealDescriptor> &descriptors,
+    const std::function<void(vector<Meal>&)> &callback_fn
 );
