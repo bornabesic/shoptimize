@@ -39,12 +39,16 @@ int main(int argc, char **argv) {
     std::cout << "Components: " << components.size() << '\n';
     std::cout << "Stores: " << stores.size() << '\n';
 
+    // TODO Move to the config file
+    vector<const Constraint *> constraints;
+    constraints.emplace_back(new MaxBudgetConstraint(10));
+
     const Store &store = stores[argv[2]];
     unsigned long int n_solutions = 0;
     auto t_start = std::chrono::high_resolution_clock::now();
     vector<Meal> best_solution;
     float best_cost = -1;
-    solve(store, components, descriptors, [&](const vector<Meal> &solution, float cost) {
+    solve(store, components, descriptors, constraints, [&](const vector<Meal> &solution, float cost) {
         ++n_solutions;
         if (best_cost == -1 || cost < best_cost) {
             best_solution = solution;

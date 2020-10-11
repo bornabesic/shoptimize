@@ -19,7 +19,7 @@ class Store {
         };
 
         string name;
-        Store() {};
+        Store() = default;
         Store(const string &name) : name(name) {};
 
         void register_product(const Product &product, const float price, const Amount amount);
