@@ -12,27 +12,34 @@
 #include "solver.hpp"
 
 void check_args(int argc, char **argv) {
-    if (argc - 1 != 1) {
-        std::cout << "Usage: shoptimize <configfile>" << '\n';
+    if (argc - 1 != 2) {
+        std::cout << "Usage: shoptimize <configfile> <storename>" << '\n';
         std::exit(1);
     }
 }
 
 int main(int argc, char **argv) {
     check_args(argc, argv);
+    const string &config_file = argv[1];
+    const string &store_name = argv[2];
 
-    YAML::Node config = YAML::LoadFile(argv[1]);
+    YAML::Node config = YAML::LoadFile(config_file);
 
     unordered_map<string, Product> products = parse_products(config);
     vector<MealComponent> components = parse_components(config, products);
     unordered_map<string, Store> stores = parse_stores(config, products);
     vector<MealDescriptor> descriptors = parse_description(config);
 
+    if (!stores.contains(store_name)) {
+        std::cout << "Cannot find store '" << store_name << "' in " << config_file << '.' << '\n';
+        return 1;
+    }
+
     std::cout << "Products: " << products.size() << '\n';
     std::cout << "Components: " << components.size() << '\n';
     std::cout << "Stores: " << stores.size() << '\n';
 
-    const Store &store = stores.begin()->second;
+    const Store &store = stores[argv[2]];
     unsigned long int n_solutions = 0;
     auto t_start = std::chrono::high_resolution_clock::now();
     vector<Meal> best_solution;
