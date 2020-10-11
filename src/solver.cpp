@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <functional>
+#include <numeric>
 
 #include "solver.hpp"
 #include "meal.hpp"
@@ -12,12 +13,16 @@ struct Context {
     const Store &store;
     const vector<MealComponent> &components;
     const vector<MealDescriptor> &descriptors;
-    const std::function<void(vector<Meal>&)> &callback_fn;
+    const std::function<void(const vector<Meal> &, float)> &callback_fn;
 };
 
 static void backtracking(const Context &context, int step, vector<Meal> &meals) {
     if (step == context.descriptors.size()) {
-        context.callback_fn(meals);
+        float total_cost = std::accumulate(meals.begin(), meals.end(), 0.f, [&](float sum, Meal &meal) {
+            Store &store = (Store &) context.store;
+            return sum + store.get_cost(meal);
+        });
+        context.callback_fn(meals, total_cost);
         return;
     }
 
@@ -46,7 +51,7 @@ static void backtracking(const Context &context, int step, vector<Meal> &meals) 
     
 }
 
-void solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors, const std::function<void(vector<Meal>&)> &callback_fn) {
+void solve(const Store &store, const vector<MealComponent> &components, const vector<MealDescriptor> &descriptors, const std::function<void(const vector<Meal> &, float)> &callback_fn) {
 
     vector<MealComponent> available_components;
     std::copy_if(
