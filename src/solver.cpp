@@ -19,8 +19,7 @@ struct Context {
 static void backtracking(const Context &context, unsigned long int step, vector<Meal> &meals) {
     if (step == context.descriptors.size()) {
         float total_cost = std::accumulate(meals.begin(), meals.end(), 0.f, [&](float sum, Meal &meal) {
-            Store &store = (Store &) context.store;
-            return sum + store.get_cost(meal);
+            return sum + context.store.get_cost(meal);
         });
         context.callback_fn(meals, total_cost);
         return;

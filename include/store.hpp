@@ -25,11 +25,11 @@ class Store {
         void register_product(const Product &product, const float price, const Amount amount);
         bool has_product(const Product &product) const;
         bool sells_all_ingredients(const MealComponent &component) const;
-        const ProductInfo &get_product_info(const Product &product);
+        const ProductInfo &get_product_info(const Product &product) const;
 
-        float get_cost(const Product &product, const Amount &amount);
-        float get_cost(const MealComponent &component);
-        float get_cost(const Meal &meal);
+        float get_cost(const Product &product, const Amount &amount) const;
+        float get_cost(const MealComponent &component) const;
+        float get_cost(const Meal &meal) const;
 
     private:
         unordered_map<Product, Store::ProductInfo> product_info;
