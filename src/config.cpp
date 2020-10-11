@@ -61,6 +61,7 @@ unordered_map<string, Product> parse_products(const YAML::Node &config) {
         assert(product["type"]);
 
         const string name = product["name"].as<string>();
+        assert(!products.contains(name));
         products[name] = Product{
             name,
             parse_product_type(product["type"].as<string>())
@@ -106,6 +107,7 @@ unordered_map<string, Store> parse_stores(const YAML::Node &config, unordered_ma
         assert(store["name"]);
         assert(store["products"]);
         const string name = store["name"].as<string>();
+        assert(!stores.contains(name));
         Store s(name);
         for (const auto &product : store["products"]) {
             const string product_name = product[0].as<string>();
