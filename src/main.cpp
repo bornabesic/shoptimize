@@ -35,16 +35,26 @@ int main(int argc, char **argv) {
     const Store &store = stores.begin()->second;
     unsigned long int n_solutions = 0;
     auto t_start = std::chrono::high_resolution_clock::now();
+    vector<Meal> best_solution;
+    float best_cost = -1;
     solve(store, components, descriptors, [&](const vector<Meal> &solution, float cost) {
         ++n_solutions;
-        for (const auto &meal : solution) {
-            std::cout << meal.name() << "\t";
+        if (best_cost == -1 || cost < best_cost) {
+            best_solution = solution;
+            best_cost = cost;
         }
-        std::cout << "Cost: " << cost << '\n';
     });
     auto t_end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> t_delta = t_end - t_start;
     std::cout << "Found " << n_solutions << " solutions in " << t_delta.count() << " seconds." << '\n';
+
+    std::cout << '\n';
+    std::cout << "Best solution:" << '\n';
+    for (const auto &meal : best_solution) {
+        std::cout << meal.name() << "\t";
+    }
+    std::cout << '\n';
+    std::cout << "Cost: " << best_cost << '\n';
 
     return 0;
 }
