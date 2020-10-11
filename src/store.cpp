@@ -47,6 +47,17 @@ float Store::get_cost(const Meal &meal) const {
     );
 }
 
+float Store::get_cost(const vector<Meal> &meals) const {
+    return std::accumulate(
+        meals.begin(),
+        meals.end(),
+        0.f,
+        [&](float sum, const Meal &meal) {
+            return sum + this->get_cost(meal);
+        }
+    );
+}
+
 bool Store::sells_all_ingredients(const MealComponent &component) const {
     return std::all_of(
         component.ingredients.begin(),

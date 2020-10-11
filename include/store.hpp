@@ -30,6 +30,7 @@ class Store {
         float get_cost(const Product &product, const Amount &amount) const;
         float get_cost(const MealComponent &component) const;
         float get_cost(const Meal &meal) const;
+        float get_cost(const vector<Meal> &meals) const;
 
     private:
         unordered_map<Product, Store::ProductInfo> product_info;

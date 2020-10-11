@@ -9,22 +9,15 @@
 
 using std::vector;
 
-static inline float calculate_total_cost(const Context &context, const vector<Meal> &meals) {
-    return std::accumulate(
-        meals.begin(),
-        meals.end(),
-        0.f,
-        [&](float sum, const Meal &meal) {
-            return sum + context.store.get_cost(meal);
-        }
-    );
-}
+// ----------------------------------------- Constraints -----------------------------------------
 
 bool MaxBudgetConstraint::check(const Context &context, const vector<Meal> &meals) const {
-    float total_cost = calculate_total_cost(context, meals);
+    float total_cost = context.store.get_cost(meals);
     return total_cost < this->max_budget;
 
 }
+
+// ----------------------------------------- Solver -----------------------------------------
 
 static void backtracking(const Context &context, unsigned long int step, vector<Meal> &meals) {
     // Check constraints
@@ -34,7 +27,7 @@ static void backtracking(const Context &context, unsigned long int step, vector<
 
     // Check if done
     if (step == context.descriptors.size()) {
-        float total_cost = calculate_total_cost(context, meals);
+        float total_cost = context.store.get_cost(meals);
         context.callback_fn(meals, total_cost);
         return;
     }
