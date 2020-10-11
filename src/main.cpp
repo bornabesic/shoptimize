@@ -3,10 +3,7 @@
 #include <cstdlib>
 #include <chrono>
 
-#include "yaml-cpp/yaml.h"
-
 #include "config.hpp"
-#include "product.hpp"
 #include "meal.hpp"
 #include "store.hpp"
 #include "solver.hpp"
