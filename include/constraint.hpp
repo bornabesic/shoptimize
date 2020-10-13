@@ -39,3 +39,13 @@ class ComponentCountConstraint : public Constraint {
         bool check(const Context &context, const vector<Meal> &meals) const override;
 
 };
+
+class ComponentTypeCountConstraint : public Constraint {
+    private:
+        MealComponent::Type type;
+        long int min, max;
+
+    public:
+        ComponentTypeCountConstraint(MealComponent::Type type, long int min = -1, long int max = -1);
+        bool check(const Context &context, const vector<Meal> &meals) const override;
+};
