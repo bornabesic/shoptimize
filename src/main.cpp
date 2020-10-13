@@ -2,13 +2,20 @@
 #include <iostream>
 #include <cstdlib>
 #include <chrono>
+#include <cmath>
 
 #include "config.hpp"
 #include "meal.hpp"
 #include "store.hpp"
 #include "solver.hpp"
 
-void check_args(int argc, char **argv) {
+template <unsigned long N>
+static float round(float number) {
+    static constexpr float factor = std::pow(10.f, N);
+    return std::round(number * factor) / factor;
+}
+
+static void check_args(int argc, char **argv) {
     if (argc - 1 != 2) {
         std::cout << "Usage: shoptimize <configfile> <storename>" << '\n';
         std::exit(1);
@@ -49,7 +56,7 @@ int main(int argc, char **argv) {
     std::chrono::duration<float> t_delta = t_end - t_start;
 
     std::cout << '\n';
-    std::cout << "Time: " << t_delta.count() << " s" << '\n';
+    std::cout << "Time: " << round<3>(t_delta.count()) << " s" << '\n';
     if (n_solutions == 0) {
         std::cout << "No solutions found." << '\n';
         return 0;
@@ -63,7 +70,7 @@ int main(int argc, char **argv) {
         std::cout << meal.name() << "\t";
     }
     std::cout << '\n';
-    std::cout << "Cost: " << best_cost << '\n';
+    std::cout << "Cost: " << round<2>(best_cost) << '\n';
 
     return 0;
 }
