@@ -46,3 +46,7 @@ description:
     override:
         Monday: [hot lunch]
         Wednesday: [hot lunch]
+    count:
+        Minutensteaks:
+            min: 2
+            max: 3
