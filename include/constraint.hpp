@@ -13,6 +13,7 @@ using std::string;
 class Constraint {
 
     public:
+        const bool intermediate = false;
         virtual bool check(const Context &context, const vector<Meal> &meals) const = 0;
 
 };
@@ -22,6 +23,7 @@ class MaxBudgetConstraint : public Constraint {
         float max_budget;
 
     public:
+        const bool intermediate = true;
         MaxBudgetConstraint(float max_budget);
         bool check(const Context &context, const vector<Meal> &meals) const override;
 

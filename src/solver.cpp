@@ -13,13 +13,19 @@ using std::vector;
 // ----------------------------------------- Solver -----------------------------------------
 
 static void backtracking(const Context &context, unsigned long int step, vector<Meal> &meals) {
-    // Check constraints
+    // Check intermediate constraints
     for (const auto &constraint : context.config.constraints) {
-        if (!constraint->check(context, meals)) return;
+        if (constraint->intermediate && !constraint->check(context, meals)) return;
     }
 
     // Check if done
     if (step == context.config.descriptors.size()) {
+
+        // Check final constraints
+        for (const auto &constraint : context.config.constraints) {
+            if (!constraint->intermediate && !constraint->check(context, meals)) return;
+        }
+
         float total_cost = context.store.get_cost(meals);
         context.callback_fn(meals, total_cost);
         return;
