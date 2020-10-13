@@ -1,3 +1,7 @@
+# temperature: hot / cold
+# type: main / side
+# time: breakfast / lunch / dinner
+
 products:
     - name: Fusilli
       type: food
