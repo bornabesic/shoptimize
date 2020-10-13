@@ -11,7 +11,7 @@ Command line tool that solves a [constraint satisfaction problem (CSP)](https://
 git clone --recursive https://github.com/bornabesic/shoptimize.git
 cd shoptimize
 mkdir build
-cd shoptimize
+cd build
 cmake .. -D CMAKE_BUILD_TYPE=Release
 make
 ```
