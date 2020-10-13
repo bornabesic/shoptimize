@@ -191,8 +191,8 @@ vector<const Constraint *> parse_constraints(const YAML::Node &config) {
         constraints.emplace_back(new MaxBudgetConstraint(max_budget));
     }
 
-    if(description["count"]) {
-        for (const auto &component : description["count"]) {
+    if(description["count"] && description["count"]["components"]) {
+        for (const auto &component : description["count"]["components"]) {
             const auto &key = component.first;
             const auto &value = component.second;
 
