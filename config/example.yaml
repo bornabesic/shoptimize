@@ -51,6 +51,10 @@ description:
         Monday: [hot lunch]
         Wednesday: [hot lunch]
     count:
+        types:
+            side:
+                min: 2
+                max: 3
         components:
             Minutensteaks:
                 min: 4

@@ -191,7 +191,9 @@ vector<const Constraint *> parse_constraints(const YAML::Node &config) {
         constraints.emplace_back(new MaxBudgetConstraint(max_budget));
     }
 
-    if(description["count"] && description["count"]["components"]) {
+    if (!description["count"]) return constraints;
+
+    if (description["count"]["components"]) {
         for (const auto &component : description["count"]["components"]) {
             const auto &key = component.first;
             const auto &value = component.second;
@@ -200,6 +202,22 @@ vector<const Constraint *> parse_constraints(const YAML::Node &config) {
             long int min = value["min"] ? value["min"].as<long int>() : -1;
             long int max = value["max"] ? value["max"].as<long int>() : -1;
             constraints.emplace_back(new ComponentCountConstraint(component_name, min, max));
+        }
+    }
+
+    if (description["count"]["types"]) {
+        for (const auto &type : description["count"]["types"]) {
+            const auto &key = type.first;
+            const auto &value = type.second;
+
+            const auto &type_name = key.as<string>();
+            long int min = value["min"] ? value["min"].as<long int>() : -1;
+            long int max = value["max"] ? value["max"].as<long int>() : -1;
+            constraints.emplace_back(new ComponentTypeCountConstraint(
+                parse_component_type(type_name),
+                min,
+                max
+            ));
         }
     }
 
